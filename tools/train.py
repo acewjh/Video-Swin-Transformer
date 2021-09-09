@@ -8,7 +8,7 @@ import warnings
 import mmcv
 import torch
 from mmcv import Config, DictAction
-from mmcv.runner import get_dist_info, init_dist, set_random_seed
+from mmcv.runner import get_dist_info, init_dist, set_random_seed, load_checkpoint
 from mmcv.utils import get_git_hash
 
 from mmaction import __version__
@@ -155,6 +155,10 @@ def main():
         cfg.model,
         train_cfg=cfg.get('train_cfg'),
         test_cfg=cfg.get('test_cfg'))
+
+    # load check point for fine-tune
+    if cfg.load_from:
+        load_checkpoint(model, cfg.load_from, map_location='cpu')
 
     if len(cfg.module_hooks) > 0:
         register_module_hooks(model, cfg.module_hooks)

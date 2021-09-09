@@ -5,6 +5,7 @@ import torch
 
 from .base import BaseDataset
 from .builder import DATASETS
+import numpy as np
 
 
 @DATASETS.register_module()
@@ -148,6 +149,7 @@ class RawframeDataset(BaseDataset):
                 else:
                     assert len(label) == 1
                     video_info['label'] = label[0]
+                    # video_info['label'] = np.array(label)
                 video_infos.append(video_info)
 
         return video_infos
